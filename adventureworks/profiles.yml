@@ -7,7 +7,7 @@ adventureworks:
      threads: 12
 
      # duckdb target/adventureworks.duckdb
-　　　# SELECT * FROM marts.fct_sales LIMIT 10;
+    # SELECT * FROM marts.fct_sales LIMIT 10;
     postgres:  
       type: postgres
       host: localhost
