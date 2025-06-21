@@ -1,10 +1,12 @@
 # 開発セットアップ手順
 
-## 🍺 1. 前提：uv のインストール（初回のみ）
+## 🍺 1. 前提：uv と DuckDB のインストール（初回のみ）
 
 ```bash
 brew install uv
 uv --version
+
+brew install duckdb
 ```
 
 ---
@@ -26,7 +28,25 @@ uv pip sync requirements.txt
 
 ---
 
-## 📦 3. DBT 操作
+## 🦆 3. DuckDB の設定（dbt 用）
+
+`profiles.yml` に以下を設定：
+
+```yaml
+adventureworks:
+  target: duckdb
+  outputs:
+    duckdb:
+      type: duckdb
+      path: target/adventureworks.duckdb
+      threads: 12
+```
+
+> 💡 `profiles.yml` は通常 `~/.dbt/profiles.yml` に置きます。
+
+---
+
+## 📦 4. DBT 操作
 
 ### インストール済みパッケージの取得
 
@@ -63,7 +83,23 @@ dbt docs serve
 
 ---
 
-## 🔀 4. Git 操作フロー
+## 🔎 5. DuckDB の内容を確認する
+
+```bash
+duckdb target/adventureworks.duckdb
+
+-- SQLプロンプトが開いたら、テーブル一覧を確認
+.tables
+
+-- 任意のテーブルの中身を確認
+SELECT * FROM your_table_name LIMIT 10;
+```
+
+> 💡 dbt run 後に `target/` 配下の DB ファイルを開いて、データが入っているか確認できます。
+
+---
+
+## 🔀 6. Git 操作フロー
 
 ### リポジトリをクローン
 
@@ -110,3 +146,5 @@ git push origin mybranch
 * `.env` ディレクトリは `.gitignore` に含めるのが正解
 * `uv pip sync` は `pip install -r requirements.txt` より高速&正確
 * Poetry や Pipenv を使わない場合も `uv` だけで十分
+* DuckDB はシングルバイナリで軽量、ローカル検証にも最適
+* `.duckdb` ファイルは SQLite っぽく直接開いて中身を確認可能
