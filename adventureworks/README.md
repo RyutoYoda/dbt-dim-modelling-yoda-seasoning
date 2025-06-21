@@ -1,27 +1,24 @@
 # 開発セットアップ手順
 
-## 🍺 1. 前提：uv と DuckDB のインストール（初回のみ）
+## 🍺 1. 前提：DuckDB のインストール（初回のみ）
 
 ```bash
-brew install uv
-uv --version
-
 brew install duckdb
 ```
 
 ---
 
-## 🐍 2. Python 仮想環境の作成（uv 使用）
+## 🐍 2. Python 仮想環境の作成
 
 ```bash
 # 仮想環境を .env ディレクトリに作成
-uv venv .env
+python3 -m venv dbtenv
 
 # 仮想環境を有効化（Unix/macOS）
-source .env/bin/activate
-
+source dbtenv/bin/activate
+pip install --upgrade pip
 # パッケージの同期（requirements.txt から）
-uv pip sync requirements.txt
+pip install -r requirements.txt
 ```
 
 > 💡 `requirements.txt` を使わず `pyproject.toml` を使う場合も自動対応可能です。
@@ -51,7 +48,10 @@ adventureworks:
 ### インストール済みパッケージの取得
 
 ```bash
+cd adventureworks             
 dbt deps
+# duckdbとの接続確認
+dbt debug
 ```
 
 ### モデルの実行
@@ -92,7 +92,7 @@ duckdb target/adventureworks.duckdb
 .tables
 
 -- 任意のテーブルの中身を確認
-SELECT * FROM your_table_name LIMIT 10;
+SELECT * FROM marts.fct_sales LIMIT 10;
 ```
 
 > 💡 dbt run 後に `target/` 配下の DB ファイルを開いて、データが入っているか確認できます。
