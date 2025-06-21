@@ -1,6 +1,6 @@
 # 開発セットアップ手順
 
-## 🍺 1. 前提：DuckDB のインストール（初回のみ）
+## 🍺 1. 前提：DuckDB のインストール
 
 ```bash
 brew install duckdb
@@ -13,16 +13,12 @@ brew install duckdb
 ```bash
 # 仮想環境を .env ディレクトリに作成
 python3 -m venv dbtenv
-
 # 仮想環境を有効化（Unix/macOS）
 source dbtenv/bin/activate
 pip install --upgrade pip
 # パッケージの同期（requirements.txt から）
 pip install -r requirements.txt
 ```
-
-> 💡 `requirements.txt` を使わず `pyproject.toml` を使う場合も自動対応可能です。
-
 ---
 
 ## 🦆 3. DuckDB の設定（dbt 用）
@@ -46,28 +42,20 @@ adventureworks:
 ## 📦 4. DBT 操作
 
 ### インストール済みパッケージの取得
-
 ```bash
 cd adventureworks             
 dbt deps
-# duckdbとの接続確認
-dbt debug
 ```
-
 ### モデルの実行
 
 ```bash
 dbt build   # run + test + snapshot など全部入り
-# または
-dbt run     # run だけ
 ```
 
-### テストの実行
-
+# duckdbとの接続確認
 ```bash
-dbt test
+dbt debug
 ```
-
 ### スナップショットの生成
 
 ```bash
